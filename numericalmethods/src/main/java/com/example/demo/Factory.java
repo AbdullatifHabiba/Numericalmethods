@@ -1,5 +1,11 @@
 package com.example.demo;
 
+import java.util.ArrayList;
+import java.lang.*;
+
+import static java.lang.Character.isDigit;
+import static java.lang.Character.isLetter;
+
 public class Factory {
     public double[][] EQUs(String equations, int unkwons){
         double[][] EQUs = new double[unkwons][unkwons + 1];
@@ -39,9 +45,23 @@ public class Factory {
         return result;
     }
 
+
+
+
+
     public static void main(String[] args) {
-        //for LUdecompostion
-        Factory F = new Factory();
+                Factory F = new Factory();
+
+        String []S={"-0y+8p=1","l-8z=0"};
+        //System.out.println(S.length);
+        GetMatrices GetMatrices = new GetMatrices(S);
+
+        //System.out.println(GetMatrices.setmatrix().length);
+
+      double sum= GetMatrices.setmatrix()[0][0]+GetMatrices.setmatrix()[0][1];
+        System.out.println(sum);
+
+        /*//for LUdecompostion
         double[][] EQUs = {{2,0,0,0},{-1,2,0,0},{1,-5,2,0},{1,1,1,2}};
         double[] B = {8,2,-7,11};
         double[] result = F.ForWard(EQUs, B);
@@ -54,12 +74,12 @@ public class Factory {
         double[] i={1,0,1};
         double[] b={1,28,76};
         Stop s=new Stop();
-        s.setRelativeerror(0.0);
-        s.setIterativenum(6);
+        s.setRelativeerror(0.001);
+        s.setIterativenum(0);
 
         Seidelsolver solver=new Seidelsolver(a,i,b,s);
         for ( int p=0;p< b.length;p++) {
             System.out.println("x"+p+"="+solver.solve()[p]);
-        }
+        }*/
     }
 }

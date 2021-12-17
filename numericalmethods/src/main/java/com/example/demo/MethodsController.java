@@ -15,29 +15,30 @@ public class MethodsController {
 
 String resalut [];
     @GetMapping("/GaussElimination")
-    public String JaussElimation(@RequestParam double[][] Matrix,@RequestParam double[] B) throws ParseException {
-
+    public String JaussElimation(@RequestParam String Matrix) throws ParseException {
+     JSONObject  AH= (JSONObject) convertjson.parse(Matrix);
+      System.out.println();
         return AH.toJSONString();
 
     }
     @GetMapping("/GaussJordan")
-    public String GaussJordan(@RequestParam double[][] Matrix,@RequestParam double[] B){
+    public String GaussJordan(@RequestParam String Matrix){
         return resalut.toString();
 
     }
     @GetMapping("/LUDecomposition")
-    public String LUDecomposition(@RequestParam double[][] Matrix,@RequestParam double[] B,@RequestParam String parameter){
+    public String LUDecomposition(@RequestParam String Matrix,@RequestParam String parameter){
         return resalut.toString();
 
     }
     @GetMapping("/Jacobi")
-    public String Jacobi(@RequestParam double[][] Matrix,@RequestParam double[] B,@RequestParam String parameter){
+    public String Jacobi(@RequestParam String Matrix,@RequestParam String parameter){
         return resalut.toString();
 
     }
 
     @GetMapping("/Seidal")
-    public String Seidal(@RequestParam double[][] Matrix,@RequestParam double[] B,@RequestParam String parameter){
+    public String Seidal(@RequestParam String Matrix,@RequestParam String parameter){
         return resalut.toString();
 
     }

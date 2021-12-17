@@ -63,10 +63,11 @@ public class Seidelsolver {
                    x[i] = (b[i] - xo) / matrix[i][i];
 
                    xo = 0;
+                   intial = x;
+
 
                }
-
-               intial = x;
+               System.out.println(x[k]);
                res.add(x) ;
            }
 
@@ -78,9 +79,9 @@ public class Seidelsolver {
                     if (i!=j)  xo+=(matrix[i][j]*intial[j]);
                 }
                 x[i]=(b[i]-xo)/matrix[i][i];
+                intial=x;
 
             }
-            intial=x;
             res.add(x);
             for(int j=0;j<res.get(0).length&&k>=1;j++) {
                 relativeError[j]=res.get(k)[j]-res.get(k-1)[j];
