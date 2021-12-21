@@ -11,7 +11,7 @@
   Enter Equations and separate them by ,
   <br>
   <textarea rows = "5" cols = "60" name = "description" [(ngModel)]="equations"  >
-     
+
   </textarea><br>
 </form>
 Precision:  <input type="number" style="height:50px; width:50px; "  [(ngModel)]="precision"/><br>
@@ -22,7 +22,11 @@ Precision:  <input type="number" style="height:50px; width:50px; "  [(ngModel)]=
   absolute Relative Error <input type="number" style="height:50px; width:50px; "  [(ngModel)]="RelativeError"/>
 </div>
 
-<button class="button" (click)="submitForm()">Click me</button>
+<button class="button" (click)="submitForm()">Solution</button>
 
+</div>
+<hr>
+<div style="height:500px; width:300px; " >
+{{result}}
 </div>
 

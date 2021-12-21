@@ -67,13 +67,13 @@ public class Seidelsolver {
 
 
                }
-               System.out.println(x[k]);
+               //System.out.println(x[k]);
                res.add(x) ;
            }
 
       }//for  number of iteration
-       if(per!=0.0&&stop==0){
-            for(int k=0;f ;k++) {
+       if(per!=0.0){
+            for(int k=0;(f);k++) {
             for(int i=0;i<matrix.length;i++) {
                 for(int j=0;j<matrix[i].length;j++) {
                     if (i!=j)  xo+=(matrix[i][j]*intial[j]);

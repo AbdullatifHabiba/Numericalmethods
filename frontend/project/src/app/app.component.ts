@@ -12,6 +12,8 @@ export class AppComponent {
   drop:any;
   NonDrop:any;
   ArrOfEquations:any=[];
+  initial:any=[];
+
   initialGuess:string="";
   numberOfIteration:number=0;
   RelativeError:number=0;
@@ -30,9 +32,9 @@ export class AppComponent {
       params:{
         Matrix:equations
       },
-      observe:'response' 
+      observe:'response'
   }).subscribe(response=>{
-    this.result=response.body; 
+    this.result=response.body;
    })
   }
   GauessJordanEq(equations:string[])
@@ -41,9 +43,9 @@ export class AppComponent {
       params:{
         Matrix:equations
       },
-      observe:'response' 
+      observe:'response'
   }).subscribe(response=>{
-    this.result=response.body; 
+    this.result=response.body;
    })
   }
   LU_Eq(equations:string[])
@@ -52,35 +54,38 @@ export class AppComponent {
       params:{
         Matrix:equations
       },
-      observe:'response' 
+      observe:'response'
   }).subscribe(response=>{
-    this.result=response.body; 
+    this.result=response.body;
    })
   }
-  jacobiEq(equations:string[],numbOfIter:number,relativeErr:number)
+  jacobiEq(equations:string[],numbOfIter:number,intial:number[],relativeErr:number)
   {
     this.http.get('http://localhost:8080/method/Jacobi',{
       params:{
         Matrix:equations,
-        IterationNum:numbOfIter,
-        relativeError:relativeErr
+        Intial:intial,
+        numbOfIter:numbOfIter,
+        relativeErr:relativeErr
       },
-      observe:'response' 
+      observe:'response'
   }).subscribe(response=>{
-    this.result=response.body; 
+    this.result=response.body;
    })
   }
-  sedeil_Eq(equations:string[],numbOfIter:number,relativeErr:number)
+  sedeil_Eq(equations:string[],numbOfIter:number,intial:number[],relativeErr:number)
   {
     this.http.get('http://localhost:8080/method/Seidel',{
       params:{
         Matrix:equations,
-        IterationNum:numbOfIter,
-        relativeError:relativeErr
+        Intial:intial,
+        numbOfIter:numbOfIter,
+        relativeErr:relativeErr
       },
-      observe:'response' 
+      observe:'response'
   }).subscribe(response=>{
-    this.result=response.body; 
+    this.result=response.body;
+    console.log(this.result);
    })
   }
 
@@ -89,6 +94,8 @@ export class AppComponent {
 
   submitForm(){
     this.ArrOfEquations=this.equations.split(",");
+    this.initial=this.initialGuess.split(",");
+
     if(this.Gauess)
     {
       this. GauessEliminationEq(this.ArrOfEquations);
@@ -103,10 +110,10 @@ export class AppComponent {
     }
     else if(this.Jacobi)
     {
-      this. jacobiEq(this.ArrOfEquations,this.numberOfIteration,this.RelativeError);
+      this. jacobiEq(this.ArrOfEquations,this.numberOfIteration,this.initial,this.RelativeError);
     }
     else{
-         this.sedeil_Eq(this.ArrOfEquations,this.numberOfIteration,this.RelativeError);
+         this.sedeil_Eq(this.ArrOfEquations,this.numberOfIteration,this.initial,this.RelativeError);
     }
   }
   dropList1()

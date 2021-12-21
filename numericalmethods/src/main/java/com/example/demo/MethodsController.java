@@ -12,34 +12,48 @@ import org.springframework.web.bind.annotation.*;
 
 public class MethodsController {
     JSONParser convertjson=new JSONParser();
+    GetMatrices GetMatrices ;
 
 String resalut [];
     @GetMapping("/GaussElimination")
-    public String JaussElimation(@RequestParam String Matrix) throws ParseException {
-     JSONObject  AH= (JSONObject) convertjson.parse(Matrix);
-      System.out.println();
-        return AH.toJSONString();
+    public double[] JaussElimation(@RequestParam String[] Matrix)  throws Exception{
+        gaussElimination ga=new gaussElimination();
+        GetMatrices GetMatrices =new GetMatrices(Matrix);
+        return ga.JaussElimination(GetMatrices.setmatrix(),GetMatrices.B);
 
     }
     @GetMapping("/GaussJordan")
-    public String GaussJordan(@RequestParam String Matrix){
-        return resalut.toString();
-
+    public double[]  GaussJordan(@RequestParam String[] Matrix) throws Exception {
+        GaussJordanSolution gj=new GaussJordanSolution();
+        GetMatrices GetMatrices =new GetMatrices(Matrix);
+        return gj.GaussJordan(GetMatrices.setmatrix(),GetMatrices.B);
     }
     @GetMapping("/LUDecomposition")
-    public String LUDecomposition(@RequestParam String Matrix,@RequestParam String parameter){
-        return resalut.toString();
+    public double[] LUDecomposition(@RequestParam String[] Matrix){
+        Factory f=new Factory();
+        GetMatrices GetMatrices =new GetMatrices(Matrix);
+
+        return f.ForWard(GetMatrices.setmatrix(),GetMatrices.B);
 
     }
     @GetMapping("/Jacobi")
-    public String Jacobi(@RequestParam String Matrix,@RequestParam String parameter){
-        return resalut.toString();
-
+    public double[] Jacobi(@RequestParam String[] Matrix,@RequestParam double[] Intial,@RequestParam double numbOfIter,@RequestParam double relativeErr){
+        GetMatrices GetMatrices =new GetMatrices(Matrix);
+        Stop s=new Stop();
+        s.setIterativenum((int)numbOfIter);
+        s.setRelativeerror(relativeErr);
+        jacobisolver SOLVE=new jacobisolver(GetMatrices.setmatrix(),Intial,GetMatrices.B ,s);
+        return SOLVE.solve();
     }
 
-    @GetMapping("/Seidal")
-    public String Seidal(@RequestParam String Matrix,@RequestParam String parameter){
-        return resalut.toString();
+    @GetMapping("/Seidel")
+    public double[] Seidal(@RequestParam String[] Matrix,@RequestParam double[] Intial,@RequestParam double numbOfIter,@RequestParam double relativeErr){
+       GetMatrices GetMatrices =new GetMatrices(Matrix);
+        Stop s=new Stop();
+        s.setIterativenum((int)numbOfIter);
+        s.setRelativeerror(relativeErr);
+        Seidelsolver SOLVE=new Seidelsolver(GetMatrices.setmatrix(),Intial,GetMatrices.B ,s);
+        return SOLVE.solve();
 
     }
 

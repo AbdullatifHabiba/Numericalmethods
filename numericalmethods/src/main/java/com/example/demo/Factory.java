@@ -49,28 +49,29 @@ public class Factory {
 
 
 
-    public static void main(String[] args) {
+   public static void main(String[] args) {
                 Factory F = new Factory();
 
         String []S={"-0y+8p=1","l-8z=0"};
         //System.out.println(S.length);
-        GetMatrices GetMatrices = new GetMatrices(S);
+        GetMatrices GetMatrices =new GetMatrices(S);
+       System.out.println("matrix"+GetMatrices.setmatrix()[0]);
+       System.out.println("out"+GetMatrices.B.length);
+       //System.out.println("out"+GetMatrices.setmatrix()[1]);
 
-        //System.out.println(GetMatrices.setmatrix().length);
+      //double sum= GetMatrices.setmatrix()[0][0]+GetMatrices.setmatrix()[0][1];
+        //System.out.println(sum);
 
-      double sum= GetMatrices.setmatrix()[0][0]+GetMatrices.setmatrix()[0][1];
-        System.out.println(sum);
-
-        /*//for LUdecompostion
+      /*  //for LUdecompostion
         double[][] EQUs = {{2,0,0,0},{-1,2,0,0},{1,-5,2,0},{1,1,1,2}};
         double[] B = {8,2,-7,11};
         double[] result = F.ForWard(EQUs, B);
         System.out.println(result[0]);
         System.out.println(result[1]);
         System.out.println(result[2]);
-        System.out.println(result[3]);
+        System.out.println(result[3]);*/
         //for seidel
-        double a[][]={{12,3,-5},{1,5,3},{3,7,13}};
+       /* double a[][]={{12,3,-5},{1,5,3},{3,7,13}};
         double[] i={1,0,1};
         double[] b={1,28,76};
         Stop s=new Stop();

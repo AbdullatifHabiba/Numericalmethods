@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import static java.lang.Character.isDigit;
@@ -11,6 +12,7 @@ public class GetMatrices {
 
     public GetMatrices(String[] equs) {
         this.equs = equs;
+        B=new double[equs.length];
     }
 
 
@@ -19,6 +21,7 @@ public class GetMatrices {
 
 
     double[][] matrix ;
+      double[]B ;
 
 
     ArrayList<Character> result = new ArrayList<>();
@@ -41,8 +44,9 @@ public class GetMatrices {
             {
                 for(int j=i;j<result.size()-1;j++){
                     output.add(String.valueOf(result.get(i+1)));
-                    result.remove(i);
+                    result.remove(j);
                 }
+                //System.out.println(output);
                 result.remove(result.size()-1);
                 break;
             }
@@ -64,8 +68,11 @@ public class GetMatrices {
 
 
         for (int i = 0; i < equs.length; i++){
+            String[]s=Equation(equs[i]);
+            Bmarrix(i);
             for (int j = 0; j < equs.length; j++){
-            matrix[i][j]= Double.parseDouble(Equation(equs[i])[j]);
+
+            matrix[i][j]= Double.parseDouble(s[j]);
 
             }
 
@@ -74,4 +81,11 @@ public class GetMatrices {
 
         return matrix;
     }
+    public double[] Bmarrix(int i){
+
+        B[i]=Double.parseDouble(output.get(i));
+
+        return B;
+    }
+
 }
