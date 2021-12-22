@@ -23,3 +23,10 @@
     margin: 12px 300px;
     cursor: pointer;
 }
+.green {
+    background-color: green;
+ }
+ 
+ .red {
+    background-color: red;
+ }
