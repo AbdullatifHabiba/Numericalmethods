@@ -93,7 +93,7 @@ export class AppComponent {
 
 
   submitForm(){
-    this.ArrOfEquations=this.equations.split(",");
+    this.ArrOfEquations=this.equations.replace("+","#").split(",");
     this.initial=this.initialGuess.split(",");
 
     if(this.Gauess)

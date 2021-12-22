@@ -31,7 +31,7 @@ public class GetMatrices {
 
     boolean error=false;
     boolean isoperator(char x){
-        if(x=='+'||x=='*'||x=='/'||x=='-')return  true;
+        if(x=='#'||x=='*'||x=='/'||x=='-')return  true;
         return  false;
     }
     public  String[] Equation(String equation ) {
@@ -58,7 +58,7 @@ public class GetMatrices {
             if (isLetter(result.get(i))) {variables.add(result.get(i).toString()) ;result.set(i,'1');}
         }
         String [] sum=  result.toString().replace("[","").replace("]","")
-                .replace("+,","").replace("-, ","-").split(",");
+                .replace("#,","").replace("-, ","-").split(",");
   result.clear();
         return sum;
     }
