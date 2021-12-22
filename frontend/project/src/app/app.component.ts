@@ -11,9 +11,9 @@ export class AppComponent {
   equations:string="";
   drop:any;
   NonDrop:any;
-  ArrOfEquations:any=[];
+  ArrOfEquations:string="";
   initial:any=[];
-
+  lutype:string='';
   initialGuess:string="";
   numberOfIteration:number=0;
   RelativeError:number=0;
@@ -26,18 +26,18 @@ export class AppComponent {
   precision:number=0;
  //////////////////////////////////////////////////////////
   constructor(private http:HttpClient){}
-  GauessEliminationEq(equations:string[])
+  GauessEliminationEq(equations:string)
   {
     this.http.get('http://localhost:8080/method/GaussElimination',{
       params:{
-        Matrix:equations
+        Matrix:equations.toString()
       },
       observe:'response'
   }).subscribe(response=>{
     this.result=response.body;
    })
   }
-  GauessJordanEq(equations:string[])
+  GauessJordanEq(equations:string)
   {
     this.http.get('http://localhost:8080/method/GaussJordan',{
       params:{
@@ -48,18 +48,19 @@ export class AppComponent {
     this.result=response.body;
    })
   }
-  LU_Eq(equations:string[])
+  LU_Eq(equations:string,type:string)
   {
     this.http.get('http://localhost:8080/method/LUDecomposition',{
       params:{
-        Matrix:equations
+        Matrix:equations,
+        type:type
       },
       observe:'response'
   }).subscribe(response=>{
     this.result=response.body;
    })
   }
-  jacobiEq(equations:string[],numbOfIter:number,intial:number[],relativeErr:number)
+  jacobiEq(equations:string,numbOfIter:number,intial:number[],relativeErr:number)
   {
     this.http.get('http://localhost:8080/method/Jacobi',{
       params:{
@@ -73,7 +74,7 @@ export class AppComponent {
     this.result=response.body;
    })
   }
-  sedeil_Eq(equations:string[],numbOfIter:number,intial:number[],relativeErr:number)
+  sedeil_Eq(equations:string,numbOfIter:number,intial:number[],relativeErr:number)
   {
     this.http.get('http://localhost:8080/method/Seidel',{
       params:{
@@ -98,13 +99,11 @@ toggle5=false;
 toggle6=false;
 
   submitForm(){
-<<<<<<< HEAD
-    this.ArrOfEquations=this.equations.replace("+","#").split(",");
-=======
+
+    this.ArrOfEquations=this.equations;
+
    this.toggle6=true;
-    this.ArrOfEquations=this.equations.split(",");
->>>>>>> 71feaf1fdf50e774989d83e975dd0b8f52681e16
-    this.initial=this.initialGuess.split(",");
+   this.initial=this.initialGuess.split(",");
 
     if(this.Gauess)
     {
@@ -116,7 +115,7 @@ toggle6=false;
     }
     else if(this.LU_decomposition)
     {
-       this.LU_Eq(this.ArrOfEquations);
+       this.LU_Eq(this.ArrOfEquations,this.lutype);
     }
     else if(this.Jacobi)
     {
@@ -126,7 +125,7 @@ toggle6=false;
          this.sedeil_Eq(this.ArrOfEquations,this.numberOfIteration,this.initial,this.RelativeError);
     }
   }
-  
+
   dropList1()
   {
     this.setToggle(true,false,false,false,false,false);

@@ -8,29 +8,28 @@ import static java.lang.Character.isLetter;
 
 public class GetMatrices {
 
-    private String []equs;
+    private String equs;
 
-    public GetMatrices(String[] equs) {
+    public GetMatrices(String equs) {
         this.equs = equs;
-        B=new double[equs.length];
     }
 
 
 
 
-
+   static double[][] aug ;
 
     double[][] matrix ;
-      double[]B ;
+     static double[]B ;
 
 
     ArrayList<Character> result = new ArrayList<>();
     ArrayList<String> variables=new ArrayList<>();
     ArrayList<String> output=new ArrayList<>();
-    ArrayList<String[]> coef=new ArrayList<>();
+    ArrayList<double[]> coef=new ArrayList<>();
 
     boolean error=false;
-    boolean isoperator(char x){
+    /*boolean isoperator(char x){
         if(x=='#'||x=='*'||x=='/'||x=='-')return  true;
         return  false;
     }
@@ -61,18 +60,24 @@ public class GetMatrices {
                 .replace("#,","").replace("-, ","-").split(",");
   result.clear();
         return sum;
-    }
-
+    }*/
+test getmatrix=new test();
     public double[][] setmatrix(){
-         matrix =new double[equs.length][equs.length];
+        aug=getmatrix.Coeff(equs);
+        B=new double[aug.length];
+
+        matrix =new double[aug.length][aug.length];
 
 
-        for (int i = 0; i < equs.length; i++){
-            String[]s=Equation(equs[i]);
-            Bmarrix(i);
-            for (int j = 0; j < equs.length; j++){
+        for (int i = 0; i < aug.length; i++){
 
-            matrix[i][j]= Double.parseDouble(s[j]);
+            for (int j = 0; j < aug[0].length; j++){
+            if(j!=aug[0].length-1)
+            {
+            matrix[i][j]= aug[i][j];
+            }else{
+                B[i]=aug[i][j];
+            }
 
             }
 
@@ -81,11 +86,10 @@ public class GetMatrices {
 
         return matrix;
     }
-    public double[] Bmarrix(int i){
-
-        B[i]=Double.parseDouble(output.get(i));
-
+    double[][]AUG(){
+        return aug;
+    }
+    double[]B(){
         return B;
     }
-
 }

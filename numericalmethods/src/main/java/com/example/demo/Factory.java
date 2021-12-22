@@ -7,6 +7,41 @@ import static java.lang.Character.isDigit;
 import static java.lang.Character.isLetter;
 
 public class Factory {
+    void Replace(double[][] EQUs, int first, int second){
+        double[] row = new double[EQUs[0].length];
+        for (int i = 0;i < EQUs[first].length;i++){
+            row[i] = EQUs[first][i];
+            EQUs[first][i] = EQUs[second][i];
+            EQUs[second][i] = row[i];
+        }
+    }
+
+    void Pivoting(double[][] EQUs){
+        double[][] U = new double[EQUs.length][EQUs[0].length];
+        for (int i = 0;i < EQUs.length;i++){
+            for (int j = 0;j < EQUs[0].length;j++)
+                U[i][j] = EQUs[i][j];
+        }
+        for (int i = 0;i < U.length - 1;i++){
+            int pivot = i;
+            for (int j = i + 1;j < U.length;j++){
+                if (U[j][i] > U[pivot][i])
+                    pivot = j;
+            }
+            Replace(EQUs, i, pivot);
+            for (int j = i + 1;j < U.length;j++){
+                double a = U[j][i] / U[i][i];
+                for (int k = 0;k < U.length;k++){
+                    U[j][k] = U[j][k] - a * U[i][k];
+                }
+            }
+        }
+        /*for (int i = 0;i < U.length;i++){
+            if (U[i][i] < 0.0000000001 || U[i][i] > -0.0000000001)
+                EQUs = null;
+        }*/
+    }
+
     public double[][] EQUs(String equations, int unkwons){
         double[][] EQUs = new double[unkwons][unkwons + 1];
         String[] coeff = equations.replaceAll("\\[|\\]", "").split(",");
@@ -49,14 +84,27 @@ public class Factory {
 
 
 
-   public static void main(String[] args) {
+
+
+    public static void main(String[] args) {
                 Factory F = new Factory();
 
-        String []S={"-0y+8p=1","l-8z=0"};
+        String s ="x-2y=3,x-y=7";
         //System.out.println(S.length);
-        GetMatrices GetMatrices =new GetMatrices(S);
-       System.out.println("matrix"+GetMatrices.setmatrix()[0]);
-       System.out.println("out"+GetMatrices.B.length);
+        GetMatrices GetMatrices =new GetMatrices(s);
+       System.out.println("matrix"+GetMatrices.setmatrix()[1][1]);
+        System.out.println("aug"+GetMatrices.AUG()[1][1]);
+        System.out.println("b"+GetMatrices.B()[1]);
+        double []i={1,0};
+        Stop S=new Stop();
+        S.setRelativeerror(0);
+        S.setIterativenum(5);
+        Seidelsolver se=new Seidelsolver(GetMatrices.setmatrix(),i,GetMatrices.B(),S);
+
+        System.out.println(se.solve()[0]);
+
+
+
        //System.out.println("out"+GetMatrices.setmatrix()[1]);
 
       //double sum= GetMatrices.setmatrix()[0][0]+GetMatrices.setmatrix()[0][1];

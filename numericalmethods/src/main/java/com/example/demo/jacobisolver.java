@@ -66,9 +66,7 @@ public class jacobisolver {
                     xo = 0;
 
                 }
-                System.out.println(x[k]);
                 intial = x;
-
                 res.add(x) ;
             }
 

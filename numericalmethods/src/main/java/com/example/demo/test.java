@@ -1,3 +1,5 @@
+package com.example.demo;
+
 import static java.lang.Character.isDigit;
 import static java.lang.Character.isLetter;
 import java.util.ArrayList;
@@ -6,6 +8,7 @@ import java.util.Scanner;
 public class test {
     double[][] Coeff(String l){
         ArrayList<Character> unkowns = new ArrayList<>();
+        l.replaceAll("","+");
         for (int i = 0;i < l.length();i++){
             if (isLetter(l.charAt(i))){
                 unkowns.add(l.charAt(i));
@@ -41,7 +44,7 @@ public class test {
                         while (!isLetter(C[2 * i].charAt(j)) && C[2 * i].charAt(j) != '+' && j != 0){
                             j -= 1;
                         }
-                        if (j == 0)
+                        if (j == 0 && !isLetter(C[2 * i].charAt(0)))
                             coeff[i][unkowns.indexOf(C[2 * i].charAt(k))] = Double.parseDouble(C[2 * i].substring(0,k));
                         else
                             coeff[i][unkowns.indexOf(C[2 * i].charAt(k))] = Double.parseDouble(C[2 * i].substring(j + 1,k));
@@ -52,17 +55,5 @@ public class test {
         return coeff;
     }
 
-    public static void main(String[] args) {
-        test t = new test();
-        Scanner sc = new Scanner(System.in);
-        String l = sc.nextLine();
-        double[][] coeff = t.Coeff(l);
-        for (int i = 0;i < coeff.length;i++){
-            System.out.print("[");
-            for (int k = 0;k < coeff[0].length;k++){
-                System.out.print(coeff[i][k] + ",");
-            }
-            System.out.println("]");
-        }
-    }
+
 }
