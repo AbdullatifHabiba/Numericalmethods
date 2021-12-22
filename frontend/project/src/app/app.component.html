@@ -1,8 +1,9 @@
-<button class="button1"(click)="dropList1()">GaussElimination</button>
-<button class="button1"(click)="dropList2()">GaussJordan</button>
-<button class="button1"(click)="dropList3()">LUDecomposition</button>
-<button class="button1" (click)="dropList4()">GaussSeidal</button>
-<button class="button1" (click)="dropList5()">Jacobi</button>
+<button class="button1"(click)="dropList1()" 
+    [ngClass]="{'green' : toggle1}" >GaussElimination</button>
+<button class="button1"(click)="dropList2()"[ngClass]="{'green' : toggle2}">GaussJordan</button>
+<button class="button1"(click)="dropList3()" [ngClass]="{'green' : toggle3}">LUDecomposition</button>
+<button class="button1" (click)="dropList4()" [ngClass]="{'green' : toggle4}">GaussSeidal</button>
+<button class="button1" (click)="dropList5()" [ngClass]="{'green' : toggle5}">Jacobi</button>
 <br>
 <br>
 
@@ -22,11 +23,12 @@ Precision:  <input type="number" style="height:50px; width:50px; "  [(ngModel)]=
   absolute Relative Error <input type="number" style="height:50px; width:50px; "  [(ngModel)]="RelativeError"/>
 </div>
 
-<button class="button" (click)="submitForm()">Solution</button>
+<button class="button" (click)="submitForm()" [ngClass]="{'green' : toggle6}">Solution</button>
 
 </div>
 <hr>
 <div style="height:500px; width:300px; " >
 {{result}}
 </div>
+
 

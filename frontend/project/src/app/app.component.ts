@@ -90,10 +90,20 @@ export class AppComponent {
   }
 
 ///////////////////////////////////////////////////
-
+toggle1 = false;
+toggle2=false;
+toggle3=false;
+toggle4=false;
+toggle5=false;
+toggle6=false;
 
   submitForm(){
+<<<<<<< HEAD
     this.ArrOfEquations=this.equations.replace("+","#").split(",");
+=======
+   this.toggle6=true;
+    this.ArrOfEquations=this.equations.split(",");
+>>>>>>> 71feaf1fdf50e774989d83e975dd0b8f52681e16
     this.initial=this.initialGuess.split(",");
 
     if(this.Gauess)
@@ -116,34 +126,51 @@ export class AppComponent {
          this.sedeil_Eq(this.ArrOfEquations,this.numberOfIteration,this.initial,this.RelativeError);
     }
   }
+  
   dropList1()
   {
+    this.setToggle(true,false,false,false,false,false);
+    this.toggle1=true;
     this.drop=false;
     this.NonDrop=true;
     this.Gauess=true;
   }
+
   dropList2(){
+    this.setToggle(false,true,false,false,false,false);
+    this.NonDrop=false;
     this.drop=false;
     this.NonDrop=true;
     this.Jordan=true;
   }
   dropList3()
   {
+    this.setToggle(false,false,true,false,false,false);
     this.drop=false;
     this.NonDrop=true;
     this.LU_decomposition=true;
   }
   dropList4()
   {
+    this.setToggle(false,false,false,true,false,false);
     this.drop=true;
     this.NonDrop=true;
     this.sediel=true;
   }
   dropList5()
   {
+    this.setToggle(false,false,false,false,true,false);
     this.drop=true;
     this.NonDrop=true;
     this.Jacobi=true;
   }
 
+  setToggle(t1:boolean,t2:boolean,t3:boolean,t4:boolean,t5:boolean,t6:boolean){
+    this.toggle1=t1;
+    this.toggle2=t2;
+    this.toggle3=t3;
+    this.toggle4=t4;
+    this.toggle5=t5;
+    this.toggle6=t6;
+  }
 }
