@@ -1,7 +1,5 @@
 package com.example.demo;
 
-import org.springframework.web.bind.annotation.GetMapping;
-
 public class LUdecomposition {
     Factory F = new Factory();
 
@@ -9,17 +7,17 @@ public class LUdecomposition {
         double[][] U = new double[Matrix.length][Matrix.length];
         for (int i = 0;i < Matrix.length;i++){
             for (int k = 0;k < Matrix.length;k++){
-                U[i][k] = Matrix[i][k];
+                U[i][k] = F.precision(Matrix[i][k]);
             }
         }
         double[][] L = new double[Matrix.length][Matrix.length];
         for (int i = 0;i < U.length - 1;i++){
             for (int j = i + 1;j < U.length;j++){
                 L[i][j] = 0;
-                double a = U[j][i] / U[i][i];
+                double a = F.precision(F.precision(U[j][i]) / F.precision(U[i][i]));
                 L[j][i] = a;
                 for (int k = 0;k < U.length;k++){
-                    U[j][k] = U[j][k] - a * U[i][k];
+                    U[j][k] = F.precision(F.precision(U[j][k]) - F.precision(a) * F.precision(U[i][k]));
                     L[k][k] = 1;
                 }
             }
@@ -36,8 +34,8 @@ public class LUdecomposition {
         double[][] U = new double[Matrix.length][Matrix[0].length];
         double[][] L = new double[Matrix.length][Matrix[0].length];
         for (int i = 0;i < Matrix.length;i++){
-            L[i][0] = Matrix[i][0];
-            U[0][i] = Matrix[0][i] / Matrix[0][0];
+            L[i][0] = F.precision(Matrix[i][0]);
+            U[0][i] = F.precision(F.precision(Matrix[0][i]) / F.precision(Matrix[0][0]));
             U[i][i] = 1;
             for (int k = i + 1;k < Matrix.length;k++){
                 L[i][k] = 0;
@@ -50,24 +48,24 @@ public class LUdecomposition {
             for (int i = j;i < Matrix.length;i++){
                 double sum = 0;
                 for (int k = 0;k < j;k++){
-                    sum += L[i][k] * U[k][j];
+                    sum += F.precision(F.precision(L[i][k]) * F.precision(U[k][j]));
                 }
-                L[i][j] = Matrix[i][j] - sum;
+                L[i][j] = F.precision(F.precision(Matrix[i][j]) - F.precision(sum));
 
             }
             for (int k = j + 1;k < Matrix.length;k++){
                 double sum = 0;
                 for (int i = 0;i < j;i++){
-                    sum += L[j][i] * U[i][k];
+                    sum += F.precision(F.precision(L[j][i]) * F.precision(U[i][k]));
                 }
-                U[j][k] = (Matrix[j][k] - sum) / L[j][j];
+                U[j][k] = F.precision(F.precision((F.precision(Matrix[j][k]) - F.precision(sum)) / F.precision(L[j][j])));
             }
         }
         double sum = 0;
         for (int k = 0;k < Matrix.length - 1;k++){
-            sum += L[Matrix.length - 1][k] * U[k][Matrix.length - 1];
+            sum += F.precision(F.precision(L[Matrix.length - 1][k]) * F.precision(U[k][Matrix.length - 1]));
         }
-        L[Matrix.length - 1][Matrix.length - 1] = Matrix[Matrix.length - 1][Matrix.length - 1] -sum;
+        L[Matrix.length - 1][Matrix.length - 1] = F.precision(F.precision(Matrix[Matrix.length - 1][Matrix.length - 1]) -F.precision(sum));
         if (A == 'L')
             return L;
         else if (A == 'U')
@@ -76,11 +74,15 @@ public class LUdecomposition {
             return null;
     }
 
-    
-
-    double[] Solve(double[][] A, double[] B){
+    double[] SolveDoolittle(double[][] A, double[] B){
         double[][] L = GetLUDoolittle(A,'L');
         double[][] U = GetLUDoolittle(A,'U');
+        return F.BackWard(U, F.ForWard(L, B));
+    }
+
+    double[] SolveCrout(double[][] A, double[] B){
+        double[][] L = GetLUCrout(A,'L');
+        double[][] U = GetLUCrout(A,'U');
         return F.BackWard(U, F.ForWard(L, B));
     }
 }
