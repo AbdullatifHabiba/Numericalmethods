@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class test {
+    Factory F = new Factory();
     double[][] Coeff(String l){
         ArrayList<Character> unkowns = new ArrayList<>();
-        l.replaceAll("","+");
+       l= l.replaceAll(" ","+");
+        System.out.println(l);
         for (int i = 0;i < l.length();i++){
             if (isLetter(l.charAt(i))){
                 unkowns.add(l.charAt(i));

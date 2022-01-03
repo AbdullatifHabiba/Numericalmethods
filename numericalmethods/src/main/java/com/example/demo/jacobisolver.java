@@ -1,7 +1,7 @@
 
 package com.example.demo;
 
-        import java.util.ArrayList;
+import java.util.ArrayList;
 
 public class jacobisolver {
     private double matrix[][];
@@ -78,12 +78,12 @@ public class jacobisolver {
                         if (i!=j)  xo+=(matrix[i][j]*intial[j]);
                     }
                     x[i]=(b[i]-xo)/matrix[i][i];
-                      xo=0;
+                    xo=0;
                 }
                 intial=x;
                 res.add(x);
                 for(int j=0;j<res.get(0).length&&k>=1;j++) {
-                    relativeError[j]=res.get(k)[j]-res.get(k-1)[j];
+                    relativeError[j]=Math.abs((res.get(k)[j]-res.get(k-1)[j])/res.get(k)[j]);
                 }
                 if (max(relativeError)<=per)f=false;
 

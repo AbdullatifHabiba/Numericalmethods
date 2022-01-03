@@ -43,6 +43,7 @@ public class gaussElimination {
             }
         }
         //Back substitution
+        Factory F =new Factory();
         double[] result=new double[B.length];
 
         for(int i=B.length-1;i>=0;i-- )

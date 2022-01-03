@@ -11,9 +11,9 @@ export class AppComponent {
   equations:string="";
   drop:any;
   NonDrop:any;
-  ArrOfEquations:string="";
+  ArrOfEquations:any=[];
   initial:any=[];
-  lutype:string='';
+
   initialGuess:string="";
   numberOfIteration:number=0;
   RelativeError:number=0;
@@ -23,65 +23,74 @@ export class AppComponent {
   Jacobi:boolean=false;
   sediel:boolean=false;
   LU_decomposition:boolean=false;
-  precision:number=0;
- //////////////////////////////////////////////////////////
+  precisionOfResult:number=0;
+
+  typeOfLU:string="";
+
   constructor(private http:HttpClient){}
-  GauessEliminationEq(equations:string)
+  GauessEliminationEq(equations:string,precision:number)
   {
     this.http.get('http://localhost:8080/method/GaussElimination',{
       params:{
-        Matrix:equations.toString()
+        Matrix:equations,
+        Precision:precision
       },
       observe:'response'
   }).subscribe(response=>{
     this.result=response.body;
    })
   }
-  GauessJordanEq(equations:string)
+  GauessJordanEq(equations:string,precision:number)
   {
     this.http.get('http://localhost:8080/method/GaussJordan',{
       params:{
-        Matrix:equations
+        Matrix:equations,
+        Precision:precision
       },
       observe:'response'
   }).subscribe(response=>{
     this.result=response.body;
    })
   }
-  LU_Eq(equations:string,type:string)
+  LUDecomposition(equations:string,Type:string,precision:number)
   {
     this.http.get('http://localhost:8080/method/LUDecomposition',{
       params:{
         Matrix:equations,
-        type:type
+        type:Type,
+        Precision:precision
       },
       observe:'response'
   }).subscribe(response=>{
     this.result=response.body;
    })
   }
-  jacobiEq(equations:string,numbOfIter:number,intial:number[],relativeErr:number)
+
+
+  jacobiEq(equations:string,numbOfIter:number,intial:number[],relativeErr:number,precision:number)
   {
     this.http.get('http://localhost:8080/method/Jacobi',{
       params:{
         Matrix:equations,
         Intial:intial,
         numbOfIter:numbOfIter,
-        relativeErr:relativeErr
+        relativeErr:relativeErr,
+        Precision:precision
       },
       observe:'response'
   }).subscribe(response=>{
     this.result=response.body;
    })
   }
-  sedeil_Eq(equations:string,numbOfIter:number,intial:number[],relativeErr:number)
+  sedeil_Eq(equations:string,numbOfIter:number,intial:number[],relativeErr:number,precision:number)
   {
     this.http.get('http://localhost:8080/method/Seidel',{
       params:{
         Matrix:equations,
         Intial:intial,
         numbOfIter:numbOfIter,
-        relativeErr:relativeErr
+        relativeErr:relativeErr,
+        Precision:precision
       },
       observe:'response'
   }).subscribe(response=>{
@@ -99,30 +108,28 @@ toggle5=false;
 toggle6=false;
 
   submitForm(){
-
-    this.ArrOfEquations=this.equations;
-
    this.toggle6=true;
-   this.initial=this.initialGuess.split(",");
+    this.ArrOfEquations=this.equations;
+    this.initial=this.initialGuess.split(",");
 
     if(this.Gauess)
     {
-      this. GauessEliminationEq(this.ArrOfEquations);
+      this. GauessEliminationEq(this.ArrOfEquations,this.precisionOfResult);
     }
     else if(this.Jordan)
     {
-      this.GauessJordanEq(this.ArrOfEquations);
+      this.GauessJordanEq(this.ArrOfEquations,this.precisionOfResult);
     }
     else if(this.LU_decomposition)
     {
-       this.LU_Eq(this.ArrOfEquations,this.lutype);
+          this.LUDecomposition(this.ArrOfEquations,this.typeOfLU,this.precisionOfResult);
     }
     else if(this.Jacobi)
     {
-      this. jacobiEq(this.ArrOfEquations,this.numberOfIteration,this.initial,this.RelativeError);
+      this. jacobiEq(this.ArrOfEquations,this.numberOfIteration,this.initial,this.RelativeError,this.precisionOfResult);
     }
     else{
-         this.sedeil_Eq(this.ArrOfEquations,this.numberOfIteration,this.initial,this.RelativeError);
+         this.sedeil_Eq(this.ArrOfEquations,this.numberOfIteration,this.initial,this.RelativeError,this.precisionOfResult);
     }
   }
 
@@ -133,6 +140,9 @@ toggle6=false;
     this.drop=false;
     this.NonDrop=true;
     this.Gauess=true;
+    this.result="";
+    this.typeOfLU="";
+
   }
 
   dropList2(){
@@ -141,6 +151,9 @@ toggle6=false;
     this.drop=false;
     this.NonDrop=true;
     this.Jordan=true;
+    this.result="";
+    this.typeOfLU="";
+
   }
   dropList3()
   {
@@ -148,6 +161,7 @@ toggle6=false;
     this.drop=false;
     this.NonDrop=true;
     this.LU_decomposition=true;
+    this.result="";
   }
   dropList4()
   {
@@ -155,6 +169,9 @@ toggle6=false;
     this.drop=true;
     this.NonDrop=true;
     this.sediel=true;
+    this.result="";
+    this.typeOfLU="";
+
   }
   dropList5()
   {
@@ -162,8 +179,14 @@ toggle6=false;
     this.drop=true;
     this.NonDrop=true;
     this.Jacobi=true;
-  }
+    this.result="";
+    this.typeOfLU="";
 
+  }
+  dropList6()
+  {
+    this.toggle6=false;
+  }
   setToggle(t1:boolean,t2:boolean,t3:boolean,t4:boolean,t5:boolean,t6:boolean){
     this.toggle1=t1;
     this.toggle2=t2;
@@ -172,4 +195,5 @@ toggle6=false;
     this.toggle5=t5;
     this.toggle6=t6;
   }
+
 }

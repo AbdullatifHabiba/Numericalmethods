@@ -22,6 +22,11 @@ public class LUdecomposition {
                 }
             }
         }
+        for (int i = 0;i < L.length;i++){
+            if (L[i][i] == 0 || U[i][i] == 0){
+                return null;
+            }
+        }
         if (A == 'L')
             return L;
         else if (A == 'U')
@@ -66,6 +71,11 @@ public class LUdecomposition {
             sum += L[Matrix.length - 1][k] * U[k][Matrix.length - 1];
         }
         L[Matrix.length - 1][Matrix.length - 1] = Matrix[Matrix.length - 1][Matrix.length - 1] -sum;
+        for (int i = 0;i < L.length;i++){
+            if (L[i][i] == 0 || U[i][i] == 0){
+                return null;
+            }
+        }
         if (A == 'L')
             return L;
         else if (A == 'U')

@@ -81,18 +81,33 @@ public class Factory {
     }
 
 
-
+    double precision(double x){
+        if (x > -1 * Math.pow(10, -1 * MethodsController.p) && x < Math.pow(10, -1 * MethodsController.p))
+            return 0;
+        if (x >= Math.pow(10,MethodsController.p)){
+            int h = 1;
+            while (x >= Math.pow(10,MethodsController.p) * Math.pow(10,h))
+                h += 1;
+            return ((int)(x / Math.pow(10,h) + .5) * Math.pow(10,h));
+        }
+        else{
+            int h = 1;
+            while (x * Math.pow(10,h) < Math.pow(10,MethodsController.p))
+                h += 1;
+            return ((int)(x * Math.pow(10,h - 1) + .5) / Math.pow(10,h - 1));
+        }
+    }
 
 
 
 
     public static void main(String[] args) {
-                Factory F = new Factory();
+        Factory F = new Factory();
 
         String s ="x-2y=3,x-y=7";
         //System.out.println(S.length);
         GetMatrices GetMatrices =new GetMatrices(s);
-       System.out.println("matrix"+GetMatrices.setmatrix()[1][1]);
+        System.out.println("matrix"+GetMatrices.setmatrix()[1][1]);
         System.out.println("aug"+GetMatrices.AUG()[1][1]);
         System.out.println("b"+GetMatrices.B()[1]);
         double []i={1,0};
@@ -105,9 +120,9 @@ public class Factory {
 
 
 
-       //System.out.println("out"+GetMatrices.setmatrix()[1]);
+        //System.out.println("out"+GetMatrices.setmatrix()[1]);
 
-      //double sum= GetMatrices.setmatrix()[0][0]+GetMatrices.setmatrix()[0][1];
+        //double sum= GetMatrices.setmatrix()[0][0]+GetMatrices.setmatrix()[0][1];
         //System.out.println(sum);
 
       /*  //for LUdecompostion
