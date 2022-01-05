@@ -1,20 +1,24 @@
 package com.example.demo.nonlinear;
 
 
+//import require classes and packages
+import java.awt.*;
+import javax.swing.*;
+import java.awt.geom.*;
+
 public class Evalute {
 
     public static void main(String[] args) {
 
         NewtonRephson NW=new NewtonRephson();
-         Evaluate E=new Evaluate("x^3-0.165*x^2+3.993*10^-4",.05);
-        System.out.println(E.eval());
+        Evaluate E= new Evaluate("e^x",0,5);
+       // System.out.println(E.eval());
 
-//e
-//-x
-//- x
-        NW.setFunction("x^10-1");
-        NW.setX(0.5);
-        NW.solve(100,.00001);
+//
+        NW.setFunction("x^3-.165x^2+3.993*10^-4");
+        NW.setX(0.05);
+        NW.setprec(5);
+        NW.solve(10,.001);
         System.out.println(NW.root);
         for (int i=0;i<NW.result.size();i++) {
 

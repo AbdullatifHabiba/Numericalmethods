@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import{HttpClient, HttpClientModule}from'@angular/common/http';
+import {NgxMathFunctionPlotterModule} from 'ngx-math-function-plotter';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -12,7 +14,7 @@ import{HttpClient, HttpClientModule}from'@angular/common/http';
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    FormsModule 
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

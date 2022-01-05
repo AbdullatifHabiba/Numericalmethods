@@ -5,10 +5,12 @@ import static java.lang.Character.isDigit;
 public class Evaluate {
     String Expression;
     double X;
+    int P;
 
-    public Evaluate(String expression, double x) {
+    public Evaluate(String expression, double x, int p) {
         Expression = expression;
         X = x;
+        P = p;
     }
 
     public void PromoteExpression(){
@@ -39,6 +41,9 @@ public class Evaluate {
             }
         }
         Expression = Expression.replaceAll("e", "2.718281828459045");
+        Expression = Expression.replaceAll("-x", "-1*x");
+        Expression = Expression.replaceAll("-c", "-1*c");
+        Expression = Expression.replaceAll("-s", "-1*s");
         Expression = Expression.replaceAll("x", X + "");
     }
 
@@ -64,6 +69,8 @@ public class Evaluate {
                 }
             }
         }
-        return new MathExpression(Expression).Calculate();
+        //return new Precision(P, new MathExpression(Expression).Calculate()).Value();
+        return  new MathExpression(Expression).Calculate();
+
     }
 }

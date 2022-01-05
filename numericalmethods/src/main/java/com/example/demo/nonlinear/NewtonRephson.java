@@ -7,6 +7,7 @@ public class NewtonRephson {
     double X;
     String function;
     double root;
+    int perc;
     public NewtonRephson(){
 
     }
@@ -15,6 +16,9 @@ public class NewtonRephson {
         return root;
     }
 
+    public void setprec(int x) {
+        perc = x;
+    }
 
     public void setX(double x) {
         X = x;
@@ -28,24 +32,23 @@ public class NewtonRephson {
     ArrayList<double[][]> result=new ArrayList<>();
     void solve(int iteration,double Es ){
 
-        point p=new point();
        Getdrivitieves G= new Getdrivitieves();
        double Ea=Es;
         for (int i=0;(i<iteration);i++){
             double[][] o=new double[1][3];
 
             double xtemp=X;
-            double dr=G.derive(function,X);
-           double y=new Evaluate(function,X).eval();
+            double dr=G.derive(function,X,perc);
+           double y=new Evaluate(function,X,perc).eval();
             o[0][0]=xtemp;
-            o[0][1]=y;
+            o[0][1]=new Precision(perc,y).Value();
             o[0][2]=dr;
-            X= X-y/dr;
-           // System.out.println(X);
+            X=new Precision(perc, X-y/dr).Value();
+            //System.out.println(X);
 
             result.add(o);
             Ea=(X-xtemp)/X;
-           if(Ea<Es)break;
+            if(Ea<Es)break;
 
 
         }
