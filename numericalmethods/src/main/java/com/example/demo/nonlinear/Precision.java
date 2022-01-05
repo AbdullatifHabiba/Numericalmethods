@@ -9,7 +9,7 @@ public class Precision {
         this.x = x;
     }
 
-    double Value(){
+    public double Value(){
         if (x < 0) {
             x *= -1;
             return -1 * Value();

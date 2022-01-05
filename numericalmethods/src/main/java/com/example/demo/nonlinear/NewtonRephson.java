@@ -29,8 +29,8 @@ public class NewtonRephson {
     public void setFunction(String function) {
         this.function = function;
     }
-    ArrayList<double[][]> result=new ArrayList<>();
-    void solve(int iteration,double Es ){
+   public ArrayList<double[][]> result=new ArrayList<>();
+   public void solve(int iteration,double Es ){
 
        Getdrivitieves G= new Getdrivitieves();
        double Ea=Es;

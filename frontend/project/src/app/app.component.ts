@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import{HttpClient}from'@angular/common/http';
+import{HttpClient, HttpErrorResponse}from'@angular/common/http';
+import { Point } from './Point';
 
 @Component({
   selector: 'app-root',
@@ -28,6 +29,25 @@ export class AppComponent {
   typeOfLU:string="";
 
   constructor(private http:HttpClient){}
+  color="red";color2="black";
+  points:Array<Point>=[]
+ngOnInit(): void {
+  this.http
+  .get('http://localhost:8080/method/points', {
+
+    observe: 'response',
+  })
+  .subscribe(
+    (response) => {
+      this.result = response.body;
+      this.points = this.result;
+      console.log(this.points)
+    },
+    (error: HttpErrorResponse) => {
+      alert(error.message);
+    }
+  );
+}
   GauessEliminationEq(equations:string,precision:number)
   {
     this.http.get('http://localhost:8080/method/GaussElimination',{

@@ -1,10 +1,16 @@
 package com.example.demo;
+import com.example.demo.nonlinear.Evaluate;
+import com.example.demo.nonlinear.Getdrivitieves;
 import com.example.demo.nonlinear.NewtonRephson;
+import com.example.demo.nonlinear.Precision;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import  org.json.simple.parser.*;
 import org.springframework.web.bind.annotation.*;
+
+import java.awt.*;
 
 
 @RestController
@@ -70,6 +76,37 @@ public class MethodsController {
         nw.setX(intial);
         nw.setFunction(equation);
         return nw.getroot() ;
+    }
+
+    class point{
+        double x;
+        double y;
+    }
+    @GetMapping("/points")
+    public JSONArray point()
+    {
+
+
+        NewtonRephson nw=new NewtonRephson();
+        nw.setFunction("x^3");
+        nw.setX(1);
+        nw.setprec(5);
+        nw.solve(10,.0001);
+        JSONArray JS=new JSONArray();
+        Point p=new Point();
+        for (double i=-20;i<20; i=i+.1)
+        {
+            JSONObject jo=new JSONObject();
+            i=new Precision(5,i).Value();
+            jo.put("x",i);
+            jo.put("y",new Evaluate("sin(x)",i,5).eval());
+            jo.put("yd",new Getdrivitieves().derive("sin(x)",i,5));
+
+            JS.add(jo);
+
+        }
+          System.out.println(JS);
+        return JS;
     }
 
 

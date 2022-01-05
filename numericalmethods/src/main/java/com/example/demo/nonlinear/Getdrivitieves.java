@@ -15,7 +15,7 @@ public class Getdrivitieves {
     public double derive( String f,double x,int p) {
         Evaluate E1=new Evaluate(f,x+DX,p);
         Evaluate E2=new Evaluate(f,x,p);
-        double dr= new Precision(p,((E1.eval()- E2.eval())/DX)).Value();
+        double dr= ((E1.eval()- E2.eval())/DX);
 
         return dr;
     }
