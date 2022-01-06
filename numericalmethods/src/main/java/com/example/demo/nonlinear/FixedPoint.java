@@ -41,7 +41,7 @@ package com.example.demo.nonlinear;
             return gx;
         }
 
-        public static double calc(String func ,double val)
+      /*  public static double calc(String func ,double val)
         {
             return Math.exp(-val);
         }
@@ -53,7 +53,7 @@ package com.example.demo.nonlinear;
            {
                System.out.print("Error");
            }
-        }
+        }*/
     }
 
 
