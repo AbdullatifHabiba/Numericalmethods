@@ -70,6 +70,12 @@ public class MethodsController {
         Seidelsolver SOLVE = new Seidelsolver(GetMatrices.setmatrix(),Intial,GetMatrices.B() ,s);
         return SOLVE.solve();
     }
+     @GetMapping("/fixed")
+    public double fixed(@RequestParam String equation,@RequestParam double initial,@RequestParam int iterations,@RequestParam double eps,@RequestParam int precision)  {
+        FixedPoint fx=new FixedPoint();
+        //System.out.print(fx.FixedPointMethod(equation,initial,eps,iterations,precision));
+        return  fx.FixedPointMethod(equation,initial,eps,iterations,precision);
+    }
     @GetMapping("/newton")
     public double newton(@RequestParam String equation,@RequestParam double intial,@RequestParam double iterations,@RequestParam double eps){
         NewtonRephson nw=new NewtonRephson();
