@@ -15,7 +15,7 @@ public class Bisection {
         this.precision = precision;
     }
 
-    double Solve(){
+   public double Solve(){
         Evaluate evaluate = new Evaluate(Function, start, precision);
         double xr, xu, xl;
         if(evaluate.eval() > 0){

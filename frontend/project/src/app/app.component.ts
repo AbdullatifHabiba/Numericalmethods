@@ -130,6 +130,11 @@ fixed(equation:string,init:number,iter:number,ep:number,precision:number)
       observe:'response'
   }).subscribe(response=>{
     this.result=response.body;
+    this.points=this.result;
+    this.rootx=this.result[0].rootx;
+    this.rooty=this.result[0].rooty;
+
+    this.points.splice(0,1)
    })
   }
   newton(equation:string,init:number,iter:number,ep:number,precision:number)
@@ -148,6 +153,76 @@ fixed(equation:string,init:number,iter:number,ep:number,precision:number)
     this.points=this.result;
     this.rootx=this.result[0].rootx;
     this.rooty=this.result[0].rooty;
+
+    this.points.splice(0,1)
+    console.log(this.points)
+   })
+  }
+  Secant(equation:string,init:number,sec:number,iter:number,ep:number,precision:number)
+  {
+    this.http.get('http://localhost:8080/method/secant',{
+      params:{
+        equation:equation,
+        first:init,
+        second:sec,
+        iterations:iter,
+        eps:ep,
+        precision:precision
+      },
+      observe:'response'
+  }).subscribe(response=>{
+    this.result=response.body;
+    this.points=this.result;
+    this.rootx=this.result[0].rootx;
+    this.rooty=this.result[0].rooty;
+
+    this.points.splice(0,1)
+    console.log(this.points)
+   })
+  }
+  xl:any;yl:any;xr:any;yr:any;
+  bisection(equation:string,init:number,sec:number,iter:number,ep:number,precision:number)
+  {
+    this.http.get('http://localhost:8080/method/bisection',{
+      params:{
+        equation:equation,
+        first:init,
+        second:sec,
+        iterations:iter,
+        eps:ep,
+        precision:precision
+      },
+      observe:'response'
+  }).subscribe(response=>{
+    this.result=response.body;
+    this.points=this.result;
+    this.rootx=this.result[0].rootx;
+    this.rooty=this.result[0].rooty;
+    this.xl=this.result[0].xl;    this.yl=this.result[0].yl;    this.xr=this.result[0].xr;    this.yr=this.result[0].yr;
+
+    this.points.splice(0,1)
+    console.log(this.points)
+   })
+  }
+  falseposition(equation:string,init:number,sec:number,iter:number,ep:number,precision:number)
+  {
+    this.http.get('http://localhost:8080/method/falsep',{
+      params:{
+        equation:equation,
+        first:init,
+        second:sec,
+        iterations:iter,
+        eps:ep,
+        precision:precision
+      },
+      observe:'response'
+  }).subscribe(response=>{
+    this.result=response.body;
+    this.points=this.result;
+    this.rootx=this.result[0].rootx;
+    this.rooty=this.result[0].rooty;
+
+    this.xl=this.result[0].xl;    this.yl=this.result[0].yl;    this.xr=this.result[0].xr;    this.yr=this.result[0].yr;
 
     this.points.splice(0,1)
     console.log(this.points)
@@ -173,17 +248,26 @@ toggle7=false;
     {
         if(this.typeOfOpenmethod=="Bisection")
         {
+          this.bisection(equat,this.initialX,this.secondX,this.numberOfIteration,this.Eps,this.precisionOfResult);
+
 
         }else if(this.typeOfOpenmethod=="False-Position")
         {
+          this.falseposition(equat,this.initialX,this.secondX,this.numberOfIteration,this.Eps,this.precisionOfResult);
+
 
         }else if(this.typeOfOpenmethod=="Fixed_point")
         {
-            console.log("ok"+this.openEquation+"uu"+this.Eps+" "+this.numberOfIteration);
+            //console.log("ok"+this.openEquation+"uu"+this.Eps+" "+this.numberOfIteration);Secant
             this.fixed(equat,this.initialX,this.numberOfIteration,this.Eps,this.precisionOfResult);
         }else if(this.typeOfOpenmethod=="Newton-Raphson"){
-          console.log("ok"+this.openEquation+"uu"+this.Eps+" "+this.numberOfIteration);
+          //console.log("ok"+this.openEquation+"uu"+this.Eps+" "+this.numberOfIteration);
             this.newton(equat,this.initialX,this.numberOfIteration,this.Eps,this.precisionOfResult);
+
+        }
+        else if(this.typeOfOpenmethod=="Secant"){
+          //console.log("ok"+this.openEquation+"uu"+this.Eps+" "+this.numberOfIteration);
+            this.Secant(equat,this.initialX,this.secondX,this.numberOfIteration,this.Eps,this.precisionOfResult);
 
         }else{
 
@@ -267,7 +351,7 @@ toggle7=false;
     this.NonDrop=false;
     this.openCheck=true;
     this.result="";
-    if(this.typeOfOpenmethod=="Secant")
+    if(this.typeOfOpenmethod=="Secant"||this.typeOfOpenmethod=="False-Position"||this.typeOfOpenmethod=="Bisection")
        {
          this.secant=true;
        }

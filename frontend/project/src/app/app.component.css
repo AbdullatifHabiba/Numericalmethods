@@ -10,6 +10,11 @@
     margin: 4px 12px;
     cursor: pointer;
 }
+#btf{
+  position: absolute;
+  left: 754px;
+    bottom: -24px;
+}
 #plot{
   height: 500px;
   width: 500px;

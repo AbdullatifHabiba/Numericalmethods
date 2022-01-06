@@ -17,7 +17,7 @@ public class FalsePosition {
 
     //Precision P = new Precision(precision);
 
-    double Solve(){
+    public double Solve(){
         double xl,xu,xr;
         Evaluate evaluate = new Evaluate(Function, start, precision);
         if(evaluate.eval() > 0){

@@ -81,9 +81,12 @@ Precision:  <input type="number" style="height:50px; width:50px; "  [(ngModel)]=
 
 
 <!--here plot image-->
-<div id="plot"  >
-  <button style="background-color: red;" [disabled]="true">mainfunction</button>
+<div  id="btf">
+<button style="background-color: red;" [disabled]="true">mainfunction</button>
   <button style="background-color: green;" [disabled]="true">second function</button>
+</div>
+<div id="plot"  >
+
 
   <svg style="height: 100%;width: 100%;">
     <g *ngFor="let p of points">
@@ -109,7 +112,7 @@ Precision:  <input type="number" style="height:50px; width:50px; "  [(ngModel)]=
   [attr.cx]="250+p.x*10"
    [attr.cy]="250-p.y*10"
    [attr.r]="1.5"/>
-   <circle
+   <circle *ngIf="p.yd"
 
   [attr.cx]="250+p.x*10"
    [attr.cy]="250-p.yd*10"
@@ -121,6 +124,39 @@ Precision:  <input type="number" style="height:50px; width:50px; "  [(ngModel)]=
     [attr.cy]="250-(rooty)*10"
     [attr.r]="5"
     [attr.fill]="color2"/>
+
+    <line  *ngIf="xl"
+    [attr.x1]="250+(xl)*10"
+    [attr.y1]="250-(yl)*10"
+    [attr.x2]="250+(xl)*10"
+     [attr.y2]="0"
+     [attr.stroke]="colorf"
+
+    />
+    <line  *ngIf="xl"
+    [attr.x1]="250+(xl)*10"
+    [attr.y1]="250-(yl)*10"
+    [attr.x2]="250+(xl)*10"
+     [attr.y2]="500"
+     [attr.stroke]="colorf"
+
+    />
+    <line  *ngIf="xr"
+    [attr.x1]="250+(xr)*10"
+    [attr.y1]="250-(yr)*10"
+    [attr.x2]="250+(xr)*10"
+     [attr.y2]="0"
+     [attr.stroke]="colorf"
+
+    />
+    <line  *ngIf="xr"
+    [attr.x1]="250+(xr)*10"
+    [attr.y1]="250-(yr)*10"
+    [attr.x2]="250+(xr)*10"
+     [attr.y2]="500"
+     [attr.stroke]="colorf"
+
+    />
   </g>
     </g>
   </svg>

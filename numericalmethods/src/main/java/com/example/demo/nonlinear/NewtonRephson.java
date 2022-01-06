@@ -47,7 +47,7 @@ public class NewtonRephson {
             //System.out.println(X);
 
             result.add(o);
-            Ea=(X-xtemp)/X;
+            Ea=Math.abs((X-xtemp)/X);
             if(Ea<Es)break;
 
 

@@ -68,15 +68,41 @@ public class MethodsController {
         return SOLVE.solve();
     }
      @GetMapping("/fixed")
-    public double fixed(@RequestParam String equation,@RequestParam double initial,@RequestParam int iterations,@RequestParam double eps,@RequestParam int precision) throws Exception {
-        FixedPoint fx=new FixedPoint();
+    public JSONArray fixed(@RequestParam String equation,@RequestParam double initial,@RequestParam int iterations,@RequestParam double eps,@RequestParam int precision) throws Exception {
+         equation=equation.replace('p','+');
+         JSONArray JS=new JSONArray();
+         JSONObject j=new JSONObject();
+         FixedPoint fx=new FixedPoint();
+         double n=fx.FixedPointMethod(equation,initial,eps,iterations,precision);
+         j.put("rootx",n);
+         j.put("rooty",new Evaluate(equation,n,precision).eval());
 
-        //System.out.print(fx.FixedPointMethod(equation,initial,eps,iterations,precision));
-        return  fx.FixedPointMethod(equation,initial,eps,iterations,precision);
+         JS.add(j);
+         System.out.println(JS);
+         String gx=fx.calculategx(equation);
+         System.out.println(gx);
+
+         for (double i=-20;i<20; i=i+.1)
+         {
+             try {
+
+                 JSONObject jo=new JSONObject();
+                 i=new Precision(5,i).Value();
+                 jo.put("x",i);
+                 //put main function
+                 jo.put("y",new Evaluate(gx,i,precision).eval());
+                 //put derivitive function
+                 jo.put("yd",new Evaluate("x",i,precision).eval());
+
+                 JS.add(jo);
+             }catch (Exception e){System.out.println("ERROR");}
+
+         }
+         System.out.println(JS);        return JS ;
     }
     @GetMapping("/newton")
     public JSONArray newton(@RequestParam String equation,@RequestParam double initial,@RequestParam int iterations,@RequestParam double eps,@RequestParam int precision ){
-       System.out.println(equation);
+       //System.out.println(equation);
        equation=equation.replace('p','+');
         NewtonRephson nw=new NewtonRephson();
         nw.setX(initial);
@@ -113,8 +139,134 @@ public class MethodsController {
 
         return JS ;
     }
+    @GetMapping("/secant")
+    public JSONArray secant(@RequestParam String equation,@RequestParam double first,@RequestParam double second,@RequestParam int iterations,@RequestParam double eps,@RequestParam int precision ){
+        //System.out.println(equation);
+        equation=equation.replace('p','+');
+        Secant sc=new Secant(equation,first,second,eps,precision,iterations);
+
+        JSONArray JS=new JSONArray();
+        JSONObject j=new JSONObject();
+        double n=sc.solve();
+        System.out.println(n);
+        //put root
+        j.put("rootx",n);
+        j.put("rooty",new Evaluate(equation,n,precision).eval());
+
+        JS.add(j);
+        for (double i=-20;i<20; i=i+.1)
+        {
+            try {
+
+                JSONObject jo=new JSONObject();
+                i=new Precision(5,i).Value();
+                //put x
+                jo.put("x",i);
+                //put main function
+                jo.put("y",new Evaluate(equation,i,precision).eval());
+                //put derivitive function
+                jo.put("yd",new Getdrivitieves().derive(equation,i,precision));
+
+                JS.add(jo);
+            }catch (Exception e){System.out.println("ERROR");}
+
+        }
+        System.out.println(JS);
 
 
-   
+        return JS ;
+    }
+
+    @GetMapping("/bisection")
+    public JSONArray bisection(@RequestParam String equation,@RequestParam double first,@RequestParam double second,@RequestParam int iterations,@RequestParam double eps,@RequestParam int precision ){
+        //System.out.println(equation);
+        equation=equation.replace('p','+');
+        Bisection bs=new Bisection(first,second,equation,eps,precision);
+
+        JSONArray JS=new JSONArray();
+        JSONObject j=new JSONObject();
+        double n=bs.Solve();
+        System.out.println(n);
+        //put root
+        j.put("rootx",n);
+        j.put("rooty",new Evaluate(equation,n,precision).eval());
+
+
+        j.put("xl",first);
+        j.put("yl",new Evaluate(equation,first,precision).eval());
+
+        j.put("xr",second);
+        j.put("yr",new Evaluate(equation,second,precision).eval());
+        JS.add(j);
+        System.out.println(JS);
+
+
+        for (double i=-20;i<20; i=i+.1)
+        {
+            try {
+
+                JSONObject jo=new JSONObject();
+                i=new Precision(5,i).Value();
+                //put x
+                jo.put("x",i);
+                //put main function
+                jo.put("y",new Evaluate(equation,i,precision).eval());
+
+                JS.add(jo);
+            }catch (Exception e){System.out.println("ERROR");}
+
+        }
+        System.out.println(JS);
+
+
+        return JS ;
+    }
+
+    @GetMapping("/falsep")
+    public JSONArray falsePosition(@RequestParam String equation,@RequestParam double first,@RequestParam double second,@RequestParam int iterations,@RequestParam double eps,@RequestParam int precision ){
+        //System.out.println(equation);
+        equation=equation.replace('p','+');
+        FalsePosition sc=new FalsePosition(first,second,equation,eps,precision);
+
+        JSONArray JS=new JSONArray();
+        JSONObject j=new JSONObject();
+        double n=sc.Solve();
+        System.out.println(n);
+        //put root
+        j.put("rootx",n);
+        j.put("rooty",new Evaluate(equation,n,precision).eval());
+
+
+        j.put("xl",first);
+        j.put("yl",new Evaluate(equation,first,precision).eval());
+
+        j.put("xr",second);
+        j.put("yr",new Evaluate(equation,second,precision).eval());
+        JS.add(j);
+        System.out.println(JS);
+
+        for (double i=-20;i<20; i=i+.1)
+        {
+            try {
+
+                JSONObject jo=new JSONObject();
+                i=new Precision(5,i).Value();
+                //put x
+                jo.put("x",i);
+                //put main function
+                jo.put("y",new Evaluate(equation,i,precision).eval());
+
+                JS.add(jo);
+            }catch (Exception e){System.out.println("ERROR");}
+
+        }
+        System.out.println(JS);
+
+
+        return JS ;
+    }
+
+
+
 
 }

@@ -9,7 +9,7 @@ package com.example.demo.nonlinear;
             int iteration = 0;
             double ea = 0;
             String fn=calculategx(func);
-            System.out.println(fn+"oo"+new Evaluate(func,x0,preci).eval());
+           // System.out.println(fn+"oo"+new Evaluate(func,x0,preci).eval());
             do {
                 xr_old = xr;
                 Evaluate E=new Evaluate(fn,xr_old,preci);
