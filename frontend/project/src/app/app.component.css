@@ -10,7 +10,14 @@
     margin: 4px 12px;
     cursor: pointer;
 }
-
+#plot{
+  height: 500px;
+  width: 500px;
+  background-color: burlywood;
+  position: absolute;
+  bottom: 0px;
+  left: 459px;
+}
 .button{
     background-color: #4CAF50;
     border: none;
@@ -26,7 +33,7 @@
 .green {
     background-color: green;
  }
- 
+
  .red {
     background-color: red;
  }

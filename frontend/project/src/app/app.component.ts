@@ -16,7 +16,7 @@ export class AppComponent {
   ArrOfEquations:any=[];
   initial:any=[];
 
-  color="red";color2="black";
+  color="red";color2="black";colorf="green"
   points:Array<Point>=[]
 /////////////////////////////////////////////
 initialX:number=0;
@@ -28,17 +28,20 @@ Eps:number=0
   numberOfIteration:number=0;
   RelativeError:number=0;
   result:any;
+  rootx:any;
+  rooty:any;
+
   Gauess:boolean=false;
   Jordan:boolean=false;
   Jacobi:boolean=false;
   sediel:boolean=false;
   LU_decomposition:boolean=false;
- 
+
   openCheck:boolean=true;
   secant:boolean=false;
   ///////////////////////////////////////
   precisionOfResult:number=0;
- 
+
   typeOfLU:string="";
   typeOfOpenmethod:string="";
 
@@ -80,7 +83,7 @@ Eps:number=0
     this.result=response.body;
    })
   }
-  
+
 
   jacobiEq(equations:string[],numbOfIter:number,intial:number[],relativeErr:number,precision:number)
   {
@@ -129,6 +132,27 @@ fixed(equation:string,init:number,iter:number,ep:number,precision:number)
     this.result=response.body;
    })
   }
+  newton(equation:string,init:number,iter:number,ep:number,precision:number)
+  {
+    this.http.get('http://localhost:8080/method/newton',{
+      params:{
+        equation:equation,
+        initial:init,
+        iterations:iter,
+        eps:ep,
+        precision:precision
+      },
+      observe:'response'
+  }).subscribe(response=>{
+    this.result=response.body;
+    this.points=this.result;
+    this.rootx=this.result[0].rootx;
+    this.rooty=this.result[0].rooty;
+
+    this.points.splice(0,1)
+    console.log(this.points)
+   })
+  }
 //////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////
 toggle1 = false;
@@ -143,6 +167,7 @@ toggle7=false;
    this.toggle6=true;
     this.ArrOfEquations=this.equations.split(",");
     this.initial=this.initialGuess.split(",");
+    let equat=this.openEquation.replace("+","p");
     //open method calling
     if(this.openCheck)
     {
@@ -155,8 +180,10 @@ toggle7=false;
         }else if(this.typeOfOpenmethod=="Fixed_point")
         {
             console.log("ok"+this.openEquation+"uu"+this.Eps+" "+this.numberOfIteration);
-            this.fixed(this.openEquation,this.initialX,this.numberOfIteration,this.Eps,this.precisionOfResult);
+            this.fixed(equat,this.initialX,this.numberOfIteration,this.Eps,this.precisionOfResult);
         }else if(this.typeOfOpenmethod=="Newton-Raphson"){
+          console.log("ok"+this.openEquation+"uu"+this.Eps+" "+this.numberOfIteration);
+            this.newton(equat,this.initialX,this.numberOfIteration,this.Eps,this.precisionOfResult);
 
         }else{
 
@@ -174,7 +201,7 @@ toggle7=false;
     }
     else if(this.LU_decomposition)
     {
-          this.LUDecomposition(this.ArrOfEquations,this.typeOfLU,this.precisionOfResult); 
+          this.LUDecomposition(this.ArrOfEquations,this.typeOfLU,this.precisionOfResult);
     }
     else if(this.Jacobi)
     {
@@ -185,7 +212,7 @@ toggle7=false;
     }
   }
   }
-  
+
   dropList1()
   {
     this.setToggle(true,false,false,false,false,false,false);
@@ -264,6 +291,6 @@ toggle7=false;
     this.openCheck=open;
   }
 
-  
+
 
 }

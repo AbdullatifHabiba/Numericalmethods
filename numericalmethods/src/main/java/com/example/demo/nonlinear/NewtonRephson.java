@@ -30,7 +30,7 @@ public class NewtonRephson {
         this.function = function;
     }
    public ArrayList<double[][]> result=new ArrayList<>();
-   public void solve(int iteration,double Es ){
+   public double solve(int iteration,double Es ){
 
        Getdrivitieves G= new Getdrivitieves();
        double Ea=Es;
@@ -53,7 +53,7 @@ public class NewtonRephson {
 
         }
         root=X;
-
+   return root;
     }
 
 

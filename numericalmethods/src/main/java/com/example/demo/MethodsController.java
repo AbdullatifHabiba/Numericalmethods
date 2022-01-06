@@ -1,8 +1,5 @@
 package com.example.demo;
-import com.example.demo.nonlinear.Evaluate;
-import com.example.demo.nonlinear.Getdrivitieves;
-import com.example.demo.nonlinear.NewtonRephson;
-import com.example.demo.nonlinear.Precision;
+import com.example.demo.nonlinear.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.boot.SpringApplication;
@@ -71,49 +68,53 @@ public class MethodsController {
         return SOLVE.solve();
     }
      @GetMapping("/fixed")
-    public double fixed(@RequestParam String equation,@RequestParam double initial,@RequestParam int iterations,@RequestParam double eps,@RequestParam int precision)  {
+    public double fixed(@RequestParam String equation,@RequestParam double initial,@RequestParam int iterations,@RequestParam double eps,@RequestParam int precision) throws Exception {
         FixedPoint fx=new FixedPoint();
+
         //System.out.print(fx.FixedPointMethod(equation,initial,eps,iterations,precision));
         return  fx.FixedPointMethod(equation,initial,eps,iterations,precision);
     }
     @GetMapping("/newton")
-    public double newton(@RequestParam String equation,@RequestParam double intial,@RequestParam double iterations,@RequestParam double eps){
+    public JSONArray newton(@RequestParam String equation,@RequestParam double initial,@RequestParam int iterations,@RequestParam double eps,@RequestParam int precision ){
+       System.out.println(equation);
+       equation=equation.replace('p','+');
         NewtonRephson nw=new NewtonRephson();
-        nw.setX(intial);
+        nw.setX(initial);
         nw.setFunction(equation);
-        return nw.getroot() ;
-    }
-
-    class point{
-        double x;
-        double y;
-    }
-    @GetMapping("/points")
-    public JSONArray point()
-    {
-
-
-        NewtonRephson nw=new NewtonRephson();
-        nw.setFunction("x^3");
-        nw.setX(1);
-        nw.setprec(5);
-        nw.solve(10,.0001);
+        nw.setprec(precision);
         JSONArray JS=new JSONArray();
-        Point p=new Point();
+        JSONObject j=new JSONObject();
+        double n=nw.solve((int)iterations,eps);
+       // System.out.println(n);
+        //put root
+        j.put("rootx",n);
+        j.put("rooty",new Evaluate(equation,n,precision).eval());
+
+        JS.add(j);
         for (double i=-20;i<20; i=i+.1)
         {
-            JSONObject jo=new JSONObject();
-            i=new Precision(5,i).Value();
-            jo.put("x",i);
-            jo.put("y",new Evaluate("sin(x)",i,5).eval());
-            jo.put("yd",new Getdrivitieves().derive("sin(x)",i,5));
+            try {
 
-            JS.add(jo);
+                JSONObject jo=new JSONObject();
+                i=new Precision(5,i).Value();
+                //put x
+                jo.put("x",i);
+                //put main function
+                jo.put("y",new Evaluate(equation,i,precision).eval());
+                //put derivitive function
+                jo.put("yd",new Getdrivitieves().derive(equation,i,precision));
+
+                JS.add(jo);
+            }catch (Exception e){System.out.println("ERROR");}
 
         }
-          System.out.println(JS);
-        return JS;
+        System.out.println(JS);
+
+
+        return JS ;
     }
 
+
+   
 
 }

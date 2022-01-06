@@ -10,12 +10,16 @@ public class Getdrivitieves {
     String drevitive;
 
 
-    private static final double DX = 0.0001;
+    private static final double DX = 0.001;
 
     public double derive( String f,double x,int p) {
-        Evaluate E1=new Evaluate(f,x+DX,p);
-        Evaluate E2=new Evaluate(f,x,p);
-        double dr= ((E1.eval()- E2.eval())/DX);
+        x=new Precision(p,x).Value();
+
+        Evaluate E1=new Evaluate(f,new Precision(p,x+DX).Value(),p);
+
+        Evaluate E2=new Evaluate(f,new Precision(p,x).Value(),p);
+        double dr= ((new Precision(p,E1.eval()).Value()-new Precision(p,E2.eval()).Value())/DX);
+
 
         return dr;
     }
