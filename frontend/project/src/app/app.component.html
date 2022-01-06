@@ -1,20 +1,36 @@
-<button class="button1"(click)="dropList1()"
+
+<button class="button1"(click)="dropList1()" 
     [ngClass]="{'green' : toggle1}" >GaussElimination</button>
 <button class="button1"(click)="dropList2()"[ngClass]="{'green' : toggle2}">GaussJordan</button>
 
 <button class="button1" (click)="dropList3()"  [ngClass]="{'green' : toggle3}">
   <label for="cars">Choose An LU method:</label>
   <select name="LU-list" [(ngModel)]="typeOfLU" >
-    <option  value="doolittle">Doolittle Form</option>
+    <option  value="downlittle">Downlittle Form</option>
     <option value="crout">Crout Form</option>
   </select>
 </button>
 
-
 <button class="button1" (click)="dropList4()" [ngClass]="{'green' : toggle4}">GaussSeidal</button>
 <button class="button1" (click)="dropList5()" [ngClass]="{'green' : toggle5}">Jacobi</button>
+
+<button class="button1" (click)="dropList7()"  [ngClass]="{'green' : toggle7}">
+  <label for="cars">Choose one of Open method:</label>
+  <select name="Open_method-list"  [(ngModel)]="typeOfOpenmethod" >
+    <option  value="Bisection">Bisection Method</option>
+    <option  value="False-Position">False-Position Method</option>
+    <option  value="Fixed_point">Fixed point Method</option>
+    <option  value="Newton-Raphson">Newton-Raphson Method</option>
+    <option  value="Secant">Secant Method</option>
+  </select>
+</button>
 <br>
 <br>
+
+
+
+
+
 
 
 <div  *ngIf="NonDrop" >
@@ -33,15 +49,37 @@ Precision:  <input type="number" style="height:50px; width:50px; "  [(ngModel)]=
   absolute Relative Error <input type="number" style="height:50px; width:50px; "  [(ngModel)]="RelativeError" (click)="dropList6()" />
 </div>
 
-<button class="button" (click)="submitForm()" [ngClass]="{'green' : toggle6}">Solution</button>
-
 </div>
-<hr>
+
+
+
+<!--here is the open method-->
+
+<div *ngIf="openCheck">
+  Enter Equation here:<input type="text" style="height:50px; width:200px; " [(ngModel)]="openEquation" (click)="dropList6()">
+  Number of Iterations: <input type="number" style="height:50px; width:50px; "  [(ngModel)]="numberOfIteration"  (click)="dropList6()"/>
+  Enter Eps: <input  type="number" style="height:50px; width:50px; " [(ngModel)]="Eps"  (click)="dropList6()" >
+
+  Precision:<input type="number" style="height:50px; width:50px; " [(ngModel)]="precisionOfResult" (click)="dropList6()">
+
+  Initial Value of x:<input type="number" style="height:50px; width:50px; " [(ngModel)]="initialX" (click)="dropList6()">
+  <div *ngIf="secant">
+  Secind initial Value of x:<input type="number" style="height:50px; width:50px; " [(ngModel)]="secondX" (click)="dropList6()">
+</div>
+</div>
+
+<!--here the result-->
+<button class="button" (click)="submitForm()" [ngClass]="{'green' : toggle6}">Solution</button>
 <div style="height:500px; width:300px; " >
 {{result}}
-{{typeOfLU}}
+{{typeOfOpenmethod}}
+{{secant}}
+{{Gauess}}
 
 </div>
+
+
+<!--here plot image-->
 <div style="height: 500px;width: 500px;background-color:burlywood ;">
   <svg style="height: 100%;width: 100%;">
     <g *ngFor="let p of points">
@@ -77,5 +115,10 @@ Precision:  <input type="number" style="height:50px; width:50px; "  [(ngModel)]=
   </svg>
 
   </div>
+
+
+
+
+
 
 
