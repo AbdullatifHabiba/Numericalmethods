@@ -24,20 +24,7 @@ package com.example.demo.nonlinear;
         }
         public static String calculategx (String fx) {
 
-            String gx="";
-            for(int i=0;i<fx.length();i++)
-            {
-                if(fx.charAt(i)=='x' && (i-1>0 &&fx.charAt(i-1)=='-') && !(i+1<fx.length()&&fx.charAt(i+1)=='^'))
-                {
-
-                    gx=fx+"+x";
-                }
-                else if(fx.charAt(i)=='x' && !(i+1<fx.length()&&fx.charAt(i+1)=='^'))
-                {
-                    gx="-("+fx+"-x"+")";
-                }
-
-            }
+        String gx=fx+"+x";
             return gx;
         }
 
